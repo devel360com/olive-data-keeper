@@ -1,4 +1,3 @@
-
 import { CreateOliveVarietyDto, OliveVariety, UpdateOliveVarietyDto } from "../types/olive";
 
 const API_URL = "http://localhost:3000/api/olive-varieties";
@@ -25,6 +24,48 @@ const mockData: OliveVariety[] = [
     description: "Variedad andaluza de doble aptitud, tanto para aceite como para aceituna de mesa.",
     imageUrl: "https://images.unsplash.com/photo-1632506823014-3f6f4a3c28bb?w=500",
     objectUrl: "/models/hojiblanca.obj"
+  },
+  {
+    id: 4,
+    name: "Manzanilla",
+    description: "Variedad típica de Sevilla, conocida por su excelente calidad como aceituna de mesa.",
+    imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500",
+    objectUrl: "/models/manzanilla.obj"
+  },
+  {
+    id: 5,
+    name: "Cornicabra",
+    description: "Variedad muy resistente al frío, produce aceites de gran estabilidad y sabor afrutado intenso.",
+    imageUrl: "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=500",
+    objectUrl: "/models/cornicabra.obj"
+  },
+  {
+    id: 6,
+    name: "Lechín",
+    description: "Variedad rústica de gran adaptabilidad, produce aceites suaves y dulces.",
+    imageUrl: "https://images.unsplash.com/photo-1466721591366-2d5fba72006d?w=500",
+    objectUrl: "/models/lechin.obj"
+  },
+  {
+    id: 7,
+    name: "Verdial",
+    description: "Variedad tradicional que produce aceites de gran calidad y sabor afrutado medio.",
+    imageUrl: "https://images.unsplash.com/photo-1493962853295-0fd70327578a?w=500",
+    objectUrl: "/models/verdial.obj"
+  },
+  {
+    id: 8,
+    name: "Gordal",
+    description: "Variedad sevillana de gran tamaño, principalmente usada como aceituna de mesa.",
+    imageUrl: "https://images.unsplash.com/photo-1465379944081-7f47de8d74ac?w=500",
+    objectUrl: "/models/gordal.obj"
+  },
+  {
+    id: 9,
+    name: "Blanqueta",
+    description: "Variedad valenciana que produce aceites frescos y afrutados con notas de almendra.",
+    imageUrl: "https://images.unsplash.com/photo-1469041797191-50ace28483c3?w=500",
+    objectUrl: "/models/blanqueta.obj"
   }
 ];
 
