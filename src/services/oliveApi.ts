@@ -1,3 +1,4 @@
+
 import { CreateOliveVarietyDto, OliveVariety, UpdateOliveVarietyDto } from "../types/olive";
 
 const API_URL = "http://localhost:3000/api/olive-varieties";
@@ -8,21 +9,21 @@ const mockData: OliveVariety[] = [
     id: 1,
     name: "Picual",
     description: "Variedad española muy común, especialmente en Jaén. Produce aceites frutados y estables.",
-    imageUrl: "https://images.unsplash.com/photo-1601472123307-2af2c9b2a76f?w=500",
+    imageUrl: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=500",
     objectUrl: "/models/picual.obj"
   },
   {
     id: 2,
     name: "Arbequina",
     description: "Variedad catalana que produce aceites dulces y suaves, muy apreciados internacionalmente.",
-    imageUrl: "https://images.unsplash.com/photo-1578344174061-49eb12fbbbdf?w=500",
+    imageUrl: "https://images.unsplash.com/photo-1498936178812-4b2e558d2937?w=500",
     objectUrl: "/models/arbequina.obj"
   },
   {
     id: 3,
     name: "Hojiblanca",
     description: "Variedad andaluza de doble aptitud, tanto para aceite como para aceituna de mesa.",
-    imageUrl: "https://images.unsplash.com/photo-1632506823014-3f6f4a3c28bb?w=500",
+    imageUrl: "https://images.unsplash.com/photo-1601472123307-2af2c9b2a76f?w=500",
     objectUrl: "/models/hojiblanca.obj"
   },
   {
