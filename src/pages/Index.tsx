@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { PlusCircle, Loader2 } from "lucide-react";
+import { useEffect } from "react";
 
 const Index = () => {
   const { toast } = useToast();
@@ -13,13 +14,15 @@ const Index = () => {
     queryFn: oliveApi.getAllVarieties,
   });
 
-  if (error) {
-    toast({
-      variant: "destructive",
-      title: "Error",
-      description: "Failed to load olive varieties",
-    });
-  }
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to load olive varieties. Please ensure the API server is running.",
+      });
+    }
+  }, [error, toast]);
 
   return (
     <div className="min-h-screen bg-cream p-8">
