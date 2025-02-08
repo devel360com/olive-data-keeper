@@ -23,7 +23,7 @@ const mockData: OliveVariety[] = [
     id: 3,
     name: "Hojiblanca",
     description: "Variedad andaluza de doble aptitud, tanto para aceite como para aceituna de mesa.",
-    imageUrl: "https://images.unsplash.com/photo-1601472123307-2af2c9b2a76f?w=500",
+    imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500",
     objectUrl: "/models/hojiblanca.obj"
   },
   {
