@@ -1,17 +1,51 @@
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { oliveApi } from "../services/oliveApi";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { PlusCircle, Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { PlusCircle, Loader2, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { OliveVariety, UpdateOliveVarietyDto } from "../types/olive";
 
 const Index = () => {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [editingVariety, setEditingVariety] = useState<OliveVariety | null>(null);
+
   const { data: varieties, isLoading, error } = useQuery({
     queryKey: ["oliveVarieties"],
     queryFn: oliveApi.getAllVarieties,
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: UpdateOliveVarietyDto }) =>
+      oliveApi.updateVariety(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["oliveVarieties"] });
+      toast({
+        title: "Éxito",
+        description: "Variedad de oliva actualizada correctamente",
+      });
+      setEditingVariety(null);
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Error al actualizar la variedad de oliva",
+      });
+    },
   });
 
   useEffect(() => {
@@ -19,10 +53,27 @@ const Index = () => {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to load olive varieties. Please ensure the API server is running.",
+        description: "Error al cargar las variedades de oliva",
       });
     }
   }, [error, toast]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editingVariety) return;
+
+    const formData = new FormData(e.currentTarget);
+    const updatedData: UpdateOliveVarietyDto = {
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+      imageUrl: formData.get("imageUrl") as string,
+    };
+
+    updateMutation.mutate({
+      id: editingVariety.id,
+      data: updatedData,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-cream p-8">
@@ -64,7 +115,11 @@ const Index = () => {
                   <Button variant="outline" className="text-sage hover:text-olive-gray">
                     View Details
                   </Button>
-                  <Button variant="ghost" className="text-sage hover:text-olive-gray">
+                  <Button 
+                    variant="ghost" 
+                    className="text-sage hover:text-olive-gray"
+                    onClick={() => setEditingVariety(variety)}
+                  >
                     Edit
                   </Button>
                 </div>
@@ -72,6 +127,65 @@ const Index = () => {
             ))}
           </div>
         )}
+
+        <Dialog open={!!editingVariety} onOpenChange={() => setEditingVariety(null)}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Editar Variedad de Oliva</DialogTitle>
+              <DialogDescription>
+                Modifica los detalles de la variedad de oliva aquí.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Nombre</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  defaultValue={editingVariety?.name}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="description">Descripción</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  defaultValue={editingVariety?.description}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="imageUrl">URL de la imagen</Label>
+                <Input
+                  id="imageUrl"
+                  name="imageUrl"
+                  defaultValue={editingVariety?.imageUrl}
+                  required
+                />
+              </div>
+              <div className="flex justify-end space-x-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setEditingVariety(null)}
+                >
+                  Cancelar
+                </Button>
+                <Button 
+                  type="submit"
+                  disabled={updateMutation.isPending}
+                >
+                  {updateMutation.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "Guardar Cambios"
+                  )}
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
