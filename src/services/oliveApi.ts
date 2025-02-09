@@ -3,10 +3,21 @@ import { CreateOliveVarietyDto, OliveVariety, UpdateOliveVarietyDto } from "../t
 
 const API_URL = "http://localhost:3002/olivos";
 
+const defaultHeaders = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+  'Access-Control-Allow-Headers': 'Content-Type'
+};
+
 export const oliveApi = {
   async getAllVarieties(): Promise<OliveVariety[]> {
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL, {
+        method: 'GET',
+        headers: defaultHeaders,
+        mode: 'cors'
+      });
       if (!response.ok) {
         throw new Error('Error al obtener las variedades de oliva');
       }
@@ -19,7 +30,11 @@ export const oliveApi = {
 
   async getVarietyById(id: number): Promise<OliveVariety> {
     try {
-      const response = await fetch(`${API_URL}/${id}`);
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: 'GET',
+        headers: defaultHeaders,
+        mode: 'cors'
+      });
       if (!response.ok) {
         throw new Error(`Variedad de oliva con id ${id} no encontrada`);
       }
@@ -34,9 +49,8 @@ export const oliveApi = {
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: defaultHeaders,
+        mode: 'cors',
         body: JSON.stringify(data),
       });
       if (!response.ok) {
@@ -53,9 +67,8 @@ export const oliveApi = {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: defaultHeaders,
+        mode: 'cors',
         body: JSON.stringify(data),
       });
       if (!response.ok) {
@@ -72,6 +85,8 @@ export const oliveApi = {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
         method: 'DELETE',
+        headers: defaultHeaders,
+        mode: 'cors'
       });
       if (!response.ok) {
         throw new Error(`Error al eliminar la variedad de oliva con id ${id}`);
