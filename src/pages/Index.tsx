@@ -4,8 +4,8 @@ import { oliveApi } from "../services/oliveApi";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { PlusCircle, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { PlusCircle, Loader2, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -48,15 +48,25 @@ const Index = () => {
     },
   });
 
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Error al cargar las variedades de oliva",
+      });
+    }
+  }, [error, toast]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!editingVariety) return;
 
     const formData = new FormData(e.currentTarget);
     const updatedData: UpdateOliveVarietyDto = {
-      nombre: formData.get("nombre") as string,
-      descripcion: formData.get("descripcion") as string,
-      url: formData.get("url") as string,
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+      imageUrl: formData.get("imageUrl") as string,
     };
 
     updateMutation.mutate({
@@ -71,13 +81,13 @@ const Index = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <span className="text-sage text-sm font-medium px-3 py-1 bg-beige rounded-full">
-              Catálogo
+              Catalog
             </span>
-            <h1 className="text-4xl font-serif text-brown mt-2">Variedades de Olivo</h1>
+            <h1 className="text-4xl font-serif text-brown mt-2">Olive Varieties</h1>
           </div>
           <Button className="bg-sage hover:bg-olive-gray text-cream">
             <PlusCircle className="mr-2 h-4 w-4" />
-            Añadir Nueva Variedad
+            Add New Variety
           </Button>
         </div>
 
@@ -94,23 +104,23 @@ const Index = () => {
               >
                 <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-beige">
                   <img
-                    src={variety.url}
-                    alt={variety.nombre}
+                    src={variety.imageUrl}
+                    alt={variety.name}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </div>
-                <h2 className="text-xl font-serif text-brown mb-2">{variety.nombre}</h2>
-                <p className="text-olive-gray line-clamp-3">{variety.descripcion}</p>
+                <h2 className="text-xl font-serif text-brown mb-2">{variety.name}</h2>
+                <p className="text-olive-gray line-clamp-3">{variety.description}</p>
                 <div className="flex justify-between items-center mt-4">
                   <Button variant="outline" className="text-sage hover:text-olive-gray">
-                    Ver Detalles
+                    View Details
                   </Button>
                   <Button 
                     variant="ghost" 
                     className="text-sage hover:text-olive-gray"
                     onClick={() => setEditingVariety(variety)}
                   >
-                    Editar
+                    Edit
                   </Button>
                 </div>
               </Card>
@@ -128,29 +138,29 @@ const Index = () => {
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="nombre">Nombre</Label>
+                <Label htmlFor="name">Nombre</Label>
                 <Input
-                  id="nombre"
-                  name="nombre"
-                  defaultValue={editingVariety?.nombre}
+                  id="name"
+                  name="name"
+                  defaultValue={editingVariety?.name}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="descripcion">Descripción</Label>
+                <Label htmlFor="description">Descripción</Label>
                 <Textarea
-                  id="descripcion"
-                  name="descripcion"
-                  defaultValue={editingVariety?.descripcion}
+                  id="description"
+                  name="description"
+                  defaultValue={editingVariety?.description}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="url">URL de la imagen</Label>
+                <Label htmlFor="imageUrl">URL de la imagen</Label>
                 <Input
-                  id="url"
-                  name="url"
-                  defaultValue={editingVariety?.url}
+                  id="imageUrl"
+                  name="imageUrl"
+                  defaultValue={editingVariety?.imageUrl}
                   required
                 />
               </div>
