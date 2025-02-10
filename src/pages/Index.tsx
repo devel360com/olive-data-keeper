@@ -26,12 +26,14 @@ const Index = () => {
   const { data: varieties, isLoading, error } = useQuery({
     queryKey: ["oliveVarieties"],
     queryFn: oliveApi.getAllVarieties,
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Error al cargar las variedades de oliva",
-      });
+    meta: {
+      onError: () => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Error al cargar las variedades de oliva",
+        });
+      }
     }
   });
 

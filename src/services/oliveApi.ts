@@ -1,7 +1,7 @@
 
 import { CreateOliveVarietyDto, OliveVariety, UpdateOliveVarietyDto } from "../types/olive";
 
-const API_URL = "https://vr360.es/api/olivos/";
+const API_URL = "https://vr360.es/olivos/";
 
 // Simulación de delay de red
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
