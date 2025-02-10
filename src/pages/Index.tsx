@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { oliveApi } from "../services/oliveApi";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { PlusCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import {
@@ -26,15 +26,6 @@ const Index = () => {
   const { data: varieties, isLoading, error } = useQuery({
     queryKey: ["oliveVarieties"],
     queryFn: oliveApi.getAllVarieties,
-    meta: {
-      onError: () => {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Error al cargar las variedades de oliva",
-        });
-      }
-    }
   });
 
   const updateMutation = useMutation({
@@ -48,7 +39,7 @@ const Index = () => {
       });
       setEditingVariety(null);
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         variant: "destructive",
         title: "Error",
@@ -73,6 +64,14 @@ const Index = () => {
       data: updatedData,
     });
   };
+
+  if (error) {
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Error al cargar las variedades de oliva",
+    });
+  }
 
   return (
     <div className="min-h-screen bg-cream p-8">

@@ -1,7 +1,7 @@
 
 import { CreateOliveVarietyDto, OliveVariety, UpdateOliveVarietyDto } from "../types/olive";
 
-const API_URL = "https://vr360.es/olivos/";
+const API_URL = "https://vr360.es/api/olivos/";
 
 // Simulación de delay de red
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -10,12 +10,7 @@ export const oliveApi = {
   async getAllVarieties(): Promise<OliveVariety[]> {
     try {
       await delay(500); // Simular latencia de red
-      const response = await fetch(API_URL, {
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(API_URL);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -29,12 +24,7 @@ export const oliveApi = {
   async getVarietyById(id: number): Promise<OliveVariety> {
     try {
       await delay(500);
-      const response = await fetch(`${API_URL}${id}`, {
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(`${API_URL}${id}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -50,7 +40,6 @@ export const oliveApi = {
       await delay(500);
       const response = await fetch(API_URL, {
         method: 'POST',
-        mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -71,7 +60,6 @@ export const oliveApi = {
       await delay(500);
       const response = await fetch(`${API_URL}${id}`, {
         method: 'PUT',
-        mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -92,10 +80,6 @@ export const oliveApi = {
       await delay(500);
       const response = await fetch(`${API_URL}${id}`, {
         method: 'DELETE',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
