@@ -10,7 +10,12 @@ export const oliveApi = {
   async getAllVarieties(): Promise<OliveVariety[]> {
     try {
       await delay(500); // Simular latencia de red
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL, {
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -24,7 +29,12 @@ export const oliveApi = {
   async getVarietyById(id: number): Promise<OliveVariety> {
     try {
       await delay(500);
-      const response = await fetch(`${API_URL}${id}`);
+      const response = await fetch(`${API_URL}${id}`, {
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -40,6 +50,7 @@ export const oliveApi = {
       await delay(500);
       const response = await fetch(API_URL, {
         method: 'POST',
+        mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -60,6 +71,7 @@ export const oliveApi = {
       await delay(500);
       const response = await fetch(`${API_URL}${id}`, {
         method: 'PUT',
+        mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -80,6 +92,10 @@ export const oliveApi = {
       await delay(500);
       const response = await fetch(`${API_URL}${id}`, {
         method: 'DELETE',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
